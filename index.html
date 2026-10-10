@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; media-src data: blob:; base-uri 'none'; form-action 'none'">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Piyo</title>
+<style>
+:root{--g:#58cc02;--gd:#46a302;--gl:#e9f9d6;--tx:#3c3c3c;--mu:#777;--bd:#e5e5e5;--or:#ff9600;--bl:#1cb0f6;--bld:#1899d6;--ye:#ffd33d}
+*{box-sizing:border-box}
+body{margin:0;background:#f7f7f7;color:var(--tx);font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;line-height:1.5}
+header{background:#fff;border-bottom:2px solid var(--bd);position:sticky;top:0;z-index:5}
+.hin{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;font-size:22px;color:var(--g);display:flex;gap:8px;align-items:center;letter-spacing:.5px}
+.lang{border:2px solid var(--bd);border-bottom-width:4px;background:#fff;border-radius:12px;padding:5px 10px;font-weight:800;font-size:13px;cursor:pointer;color:var(--mu);font-family:inherit}
+.lang b{color:var(--bld)}
+.lang:active{transform:translateY(2px);border-bottom-width:2px}
+:focus-visible{outline:3px solid var(--bl);outline-offset:2px}
+main{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+.narrow{max-width:520px;margin:0 auto}
+h1{font-size:24px;margin:6px 0 4px}
+.sub{color:var(--mu);font-size:14px;margin:0 0 18px}
+.hero{text-align:center}
+.hero svg{width:110px;height:104px}
+.bounce{animation:bn 2.4s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes bn{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px) scale(1.02)}}
+.card{background:#fff;border:2px solid var(--bd);border-bottom-width:4px;border-radius:18px;padding:14px 16px;margin-bottom:14px;width:100%;text-align:left;font-family:inherit;color:inherit;font-size:15px}
+button.card{cursor:pointer;display:flex;gap:14px;align-items:center}
+button.card:hover{background:#fafafa}
+button.card:active{transform:translateY(2px);border-bottom-width:2px;margin-bottom:16px}
+button.card.sel{border-color:var(--bl);background:#ddf4ff;border-bottom-color:var(--bld)}
+.card .ic{font-size:32px}
+.card b{display:block;font-size:16px}
+.card small{color:var(--mu);font-size:13px}
+.btn{display:block;width:100%;background:var(--g);color:#fff;border:0;border-bottom:5px solid var(--gd);border-radius:16px;padding:13px;font-weight:800;font-size:16px;letter-spacing:.5px;cursor:pointer;font-family:inherit;text-transform:uppercase}
+.btn:active{transform:translateY(3px);border-bottom-width:2px}
+.btn:disabled{background:var(--bd);border-bottom-color:#cfcfcf;color:#aaa;cursor:not-allowed}
+.btn.blue{background:var(--bl);border-bottom-color:var(--bld)}
+.btn.ghost{background:#fff;color:var(--bld);border:2px solid var(--bd);border-bottom-width:4px}
+.btn.sm{display:inline-block;width:auto;padding:9px 14px;font-size:13px}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.pbar{height:14px;background:var(--bd);border-radius:8px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--g);border-radius:8px;transition:width .5s}
+.pbar.b i{background:var(--bl)}
+.qtop{font-size:13px;color:var(--mu);font-weight:700;margin-bottom:6px}
+.exname{font-size:20px;font-weight:800}
+.tag{display:inline-block;background:var(--gl);color:var(--gd);font-weight:800;font-size:12px;border-radius:10px;padding:2px 8px;margin-bottom:6px}
+ul.rules{margin:8px 0 0;padding:0;list-style:none}
+ul.rules li{padding:8px 0;border-top:2px solid #f0f0f0;font-size:14px;display:flex;gap:8px}
+.grid{display:grid;gap:0 18px}
+@media(min-width:860px){.grid{grid-template-columns:1fr 1fr;align-items:start}}
+.stats{display:flex;justify-content:space-between;font-weight:800;font-size:16px;margin-bottom:10px}
+.streak{color:var(--or)}.xpn{color:var(--g)}
+.chickcard{text-align:center;position:relative}
+.chickcard svg{width:150px;height:142px}
+.bub{display:inline-block;border:2px solid var(--bd);border-radius:14px;padding:8px 14px;font-size:14px;font-weight:700;margin:2px 0 8px;background:#fff;position:relative}
+.role{font-weight:800;font-size:18px}
+.role span{color:var(--gd)}
+.pop{position:absolute;right:18%;top:70px;font-weight:800;font-size:22px;color:var(--g);animation:pop 1.2s ease-out forwards;pointer-events:none}
+@keyframes pop{0%{opacity:0;transform:translateY(10px) scale(.6)}25%{opacity:1;transform:translateY(-6px) scale(1.2)}100%{opacity:0;transform:translateY(-44px)}}
+.banner{border-radius:14px;padding:10px 14px;font-weight:800;margin-bottom:14px;animation:slide .4s}
+.banner.up{background:var(--gl);color:var(--gd);border:2px solid var(--g)}
+.banner.soft{background:#ddf4ff;color:var(--bld);border:2px solid var(--bl)}
+.banner.info{background:#fff4d6;color:#b36b00;border:2px solid var(--ye)}
+@keyframes slide{from{opacity:0;transform:translateY(-8px)}}
+h2{font-size:16px;margin:0 0 10px}
+.task{display:flex;justify-content:space-between;align-items:center;width:100%;border:2px solid var(--bd);border-bottom-width:4px;border-radius:14px;padding:10px 14px;margin-bottom:8px;background:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--tx);text-align:left}
+.task b{color:var(--g);white-space:nowrap}
+.task:hover{background:#fafafa}
+.task:active:not(.done){transform:translateY(2px);border-bottom-width:2px;margin-bottom:10px}
+.task.done{background:var(--gl);border-color:#b8e986;color:var(--gd);cursor:default}
+.linkbox{background:#f4f4f4;border-radius:10px;padding:8px 10px;font-size:13px;word-break:break-all;margin:10px 0 0;font-family:ui-monospace,monospace}
+.ladder{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:12px;margin-bottom:6px;font-size:14px}
+.ladder.cur{background:var(--gl);border:2px solid var(--g)}
+.ladder.lock{opacity:.55}
+.ladder .e{font-size:24px}
+.ladder small{color:var(--mu);display:block}
+.friends{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.fr{background:#f7f7f7;border-radius:12px;padding:4px 10px;font-size:13px;font-weight:700}
+.muted{color:var(--mu);font-size:13px}
+.inp{width:100%;border:2px solid var(--bd);border-bottom-width:4px;border-radius:14px;padding:12px 14px;font-size:16px;font-family:inherit;color:var(--tx);background:#fff}
+.inp:focus{border-color:var(--bl);outline:none}
+.tabs{display:flex;gap:6px;margin:4px 0 12px}
+.tab{flex:1;border:2px solid var(--bd);border-bottom-width:4px;background:#fff;border-radius:12px;padding:8px 4px;font-weight:800;font-size:14px;font-family:inherit;color:var(--mu);cursor:pointer}
+.tab.on{background:#ddf4ff;border-color:var(--bl);color:var(--bld)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chip{border:2px solid var(--bd);background:#fff;border-radius:20px;padding:5px 10px;font-size:13px;font-weight:700;font-family:inherit;color:var(--mu);cursor:pointer}
+.chip small{font-weight:700;margin-left:2px}
+.chip.on{background:var(--gl);border-color:var(--g);color:var(--gd)}
+.fi{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:2px solid #f0f0f0;flex-wrap:wrap}
+.fi>div{flex:1;min-width:0}
+.fi b{display:block;font-size:14px}
+.fi small{color:var(--mu);font-size:12px;display:block}
+.sb{width:38px;height:38px;border-radius:12px;background:#f4f4f4;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none;font-weight:800;font-size:13px}
+.sb.dt{background:#ddf4ff;color:var(--bld)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="hin"><div class="logo"><span aria-hidden="true">🐥</span>Piyo</div>
+<button class="lang" id="langBtn" data-demo="lang-switch" data-act="lang" type="button"></button></div></header>
+<main id="app"></main>
+<script>
+const I18N={
+ja:{
+title:"Piyo – 貢献でひよこが育つコミュニティ",langAria:"言語を切り替える（日本語 / English）",
+tpl_h:"どんなコミュニティ？",tpl_s:"選ぶとルールが自動で整います",
+tpl_circle:"趣味サークル",tpl_circle_d:"イベント・予算を投票",
+tpl_local:"地域コミュニティ",tpl_local_d:"活動を提案・承認",
+tpl_fan:"ファン・学習",tpl_fan_d:"貢献でポイント獲得",
+cont:"つづける",back:"もどる",q_of:"質問 {0} / 3",
+q1:"何のための集まり？",p_connect:"つながる・交流したい",p_act:"いっしょに活動したい",p_learn:"学ぶ・応援したい",
+q2:"何人くらいの集まり？",s_s:"〜10人",s_m:"10〜50人",s_l:"50人以上",
+q3:"お金は使う？",m_none:"使わない",m_small:"少額の会費がある",m_budget:"みんなの予算がある",
+res_h:"あなたに近い実例",res_s:"こんな形から始めるのがおすすめです",res_members:"メンバー 約{0}人",res_rules:"はじめのルール（あとで変えられます）",start:"この形で始める",
+r_quorum:"提案は参加者の{0}%が投票すれば成立",
+r_money_none:"お金なし：ポイントとバッジだけで運営",
+r_money_small:"会費は全員に見える形で記録。使い道は投票",
+r_money_budget:"予算の使い道はみんなで投票。リーダーは承認だけ",
+r_decay:"3日お休みすると −8 XP。でもひよこには必ず戻れます",
+r_promote:"XPがたまると自動で昇格：10 / 30 / 60 XP",
+r_purpose_connect:"あいさつ・ひとことのポイントを手厚く",
+r_purpose_act:"提案と共同ゴールのポイントを手厚く",
+r_purpose_learn:"感想・おすすめ紹介のポイントを手厚く",
+streak:"{0}日連続",xp:"{0} XP",toNext:"{0}まで あと {1} XP",maxrank:"最高ランク！",
+st0:"たまご",st1:"ひよこ",st2:"わかどり",st3:"にわとり",
+ro0:"見習い",ro1:"メンバー",ro2:"サポーター",ro3:"リーダー",
+pk0:"みんなの投票を見られる",pk1:"投票に参加できる",pk2:"活動の提案を出せる",pk3:"提案を承認できる",
+today_h:"今日の小さな貢献",
+t_greet:"あいさつをする",t_thought:"感想をひとこと",t_vote:"投票する",t_help:"質問に答える",
+t_special_circle:"イベント案を出す",t_special_local:"活動を提案する",t_special_fan:"おすすめを紹介する",
+inv_h:"友だちを招待",inv_btn:"招待リンクをつくる +3",inv_done:"今日は招待ずみ ✓",inv_count:"招待した仲間：{0}人",inv_msg:"{0}さんが参加！ +3 XP",
+goal_h:"みんなの共同ゴール",goal_circle:"秋のミニ大会をひらこう",goal_local:"公園の花だんを完成させよう",goal_fan:"推し活マップをつくろう",
+ladder_h:"役割のしくみ",rules_h:"このコミュニティのルール",show:"見る",hide:"閉じる",
+demo_h:"デモ用ツール",nextday:"次の日へ",rest:"3日お休みしてみる",restart:"最初からやり直す",
+b0:"ひとことで、たまごがかえるよ！",b1:"今日もひとこと、どう？",b2:"いい調子！提案もできるよ",b3:"みんなのリーダー、さすが！",
+m_start:"ようこそ！はじめのボーナス +5 XP",m_promo:"🎉 {0}に昇格！",
+m_down:"🌙 {0}でお休み中。いつでも戻れるよ",m_same:"🌙 ゆっくり休んでね。ひよこは待ってるよ",m_new:"☀️ 新しい1日！今日もひとこと？",
+m_thanks:"+{0} XP ゲット！",friends:"ひよこ仲間",you:"あなた",
+comm:"{0}コミュニティ",doneAria:"完了",
+name_l:"コミュニティの名前",name_ph:"例：{0}",name_h:"あとから変えられます",
+hub_h:"コミュニティハブ",hub_s:"連携したSNSの投稿を自動でまとめます（デモ）",
+tab_feed:"フィード",tab_events:"イベント",tab_members:"メンバー",
+conn_on:"連携中",conn_off:"未連携",sync:"今すぐ同期",
+sync_msg:"新しい投稿を{0}件取り込みました",sync_none:"先にサービスを連携してください",
+conn_msg_on:"{0}を連携しました",conn_msg_off:"{0}の連携を解除しました",
+feed_empty:"サービスを連携すると、投稿がここに集まります",
+ago:"{0}時間前",agod:"{0}日前",
+ev_pub:"全媒体に掲載",ev_pubd:"掲載ずみ ✓",ev_msg:"{0}か所に掲載しました",
+mem_h:"メンバーの最近の活動",
+ren:"名前を変更",ren_save:"保存",
+ft1:"SNSの投稿を自動で取り込み",ft2:"イベントを各媒体にまとめて掲載",ft3:"メンバーの活動が見える",
+pet_h:"育てるキャラを選ぶ",pet_chick:"ひよこ",pet_cat:"ねこ",pet_bear:"くま",pet_msg:"{0}といっしょに育てよう！",
+st_cat1:"こねこ",st_cat2:"ねこ",st_cat3:"ボスねこ",st_bear1:"こぐま",st_bear2:"くま",st_bear3:"おやぶんぐま"
+},
+en:{
+title:"Piyo – Grow a chick, grow a community",langAria:"Switch language (日本語 / English)",
+tpl_h:"What kind of community?",tpl_s:"Pick one and the rules set themselves up",
+tpl_circle:"Hobby circle",tpl_circle_d:"Vote on events and budget",
+tpl_local:"Local community",tpl_local_d:"Propose and approve activities",
+tpl_fan:"Fans & learning",tpl_fan_d:"Earn points by contributing",
+cont:"Continue",back:"Back",q_of:"Question {0} of 3",
+q1:"What is it for?",p_connect:"Meeting people",p_act:"Doing things together",p_learn:"Learning & cheering",
+q2:"How many people?",s_s:"Up to 10",s_m:"10–50",s_l:"50 or more",
+q3:"Will money be involved?",m_none:"No money",m_small:"Small fees",m_budget:"A shared budget",
+res_h:"A community like yours",res_s:"Here is a good way to begin",res_members:"About {0} members",res_rules:"Starting rules (you can change them later)",start:"Start this way",
+r_quorum:"A proposal passes when {0}% of members vote",
+r_money_none:"No money: run on points and badges only",
+r_money_small:"Fees are logged for everyone to see. Spending is voted",
+r_money_budget:"Everyone votes on the budget. Leaders only approve",
+r_decay:"Resting 3 days costs −8 XP, but you can always return to Chick",
+r_promote:"Roles rise automatically with XP: 10 / 30 / 60 XP",
+r_purpose_connect:"Extra points for greetings and small notes",
+r_purpose_act:"Extra points for proposals and shared goals",
+r_purpose_learn:"Extra points for reviews and recommendations",
+streak:"{0}-day streak",xp:"{0} XP",toNext:"{1} XP to {0}",maxrank:"Top rank!",
+st0:"Egg",st1:"Chick",st2:"Young bird",st3:"Rooster",
+ro0:"Newcomer",ro1:"Member",ro2:"Supporter",ro3:"Leader",
+pk0:"Can view community votes",pk1:"Can vote",pk2:"Can propose activities",pk3:"Can approve proposals",
+today_h:"Today's small steps",
+t_greet:"Say hello",t_thought:"Share a thought",t_vote:"Cast a vote",t_help:"Answer a question",
+t_special_circle:"Suggest an event",t_special_local:"Propose an activity",t_special_fan:"Recommend something",
+inv_h:"Invite a friend",inv_btn:"Create invite link +3",inv_done:"Invited today ✓",inv_count:"Friends invited: {0}",inv_msg:"{0} joined! +3 XP",
+goal_h:"Shared goal",goal_circle:"Hold an autumn mini event",goal_local:"Finish the park flower bed",goal_fan:"Build our fan map",
+ladder_h:"How roles work",rules_h:"Rules of this community",show:"Show",hide:"Hide",
+demo_h:"Demo tools",nextday:"Next day",rest:"Try resting 3 days",restart:"Start over",
+b0:"One small step will hatch me!",b1:"Want to say hi today?",b2:"Great pace! You can propose now",b3:"Our leader! Amazing!",
+m_start:"Welcome! +5 XP starter bonus",m_promo:"🎉 Promoted to {0}!",
+m_down:"🌙 Resting as {0}. You can come back anytime",m_same:"🌙 Rest well. Piyo will wait for you",m_new:"☀️ A new day! Ready to chip in?",
+m_thanks:"+{0} XP!",friends:"Chick friends",you:"You",
+comm:"{0} community",doneAria:"Done",
+name_l:"Community name",name_ph:"e.g. {0}",name_h:"You can change it later",
+hub_h:"Community hub",hub_s:"Posts from your connected accounts are gathered automatically (demo)",
+tab_feed:"Feed",tab_events:"Events",tab_members:"Members",
+conn_on:"Connected",conn_off:"Not connected",sync:"Sync now",
+sync_msg:"Pulled in {0} new posts",sync_none:"Connect a service first",
+conn_msg_on:"{0} connected",conn_msg_off:"{0} disconnected",
+feed_empty:"Connect a service and posts will gather here",
+ago:"{0}h ago",agod:"{0}d ago",
+ev_pub:"Post to all",ev_pubd:"Posted ✓",ev_msg:"Posted to {0} places",
+mem_h:"Recent member activity",
+ren:"Rename",ren_save:"Save",
+ft1:"Auto-import posts from your accounts",ft2:"Post events to every channel at once",ft3:"See what members are doing",
+pet_h:"Choose your buddy",pet_chick:"Chick",pet_cat:"Cat",pet_bear:"Bear",pet_msg:"Let's grow {0} together!",
+st_cat1:"Kitten",st_cat2:"Cat",st_cat3:"Boss cat",st_bear1:"Cub",st_bear2:"Bear",st_bear3:"Big bear"
+}};
+const EX={
+circle:{connect:{ja:["ボドゲ交流会","毎月の集まりを投票で決める"],en:["Board Game Meetup","Members vote on the monthly gathering"]},
+act:{ja:["週末ランニング部","コースと予算をみんなで決める"],en:["Weekend Run Club","Everyone picks routes and budget"]},
+learn:{ja:["読書クラブ","次の課題本を提案して選ぶ"],en:["Book Club","Suggest and pick the next book"]}},
+local:{connect:{ja:["商店街ご近所会","あいさつから顔なじみに"],en:["Shopping Street Neighbors","From hellos to familiar faces"]},
+act:{ja:["公園そうじ隊","活動を提案・承認して動く"],en:["Park Cleanup Crew","Propose, approve, and act"]},
+learn:{ja:["まち歩き学び場","地域の人が教え合う"],en:["Town Walk Learning","Locals teach each other"]}},
+fan:{connect:{ja:["推しバンド応援団","感想を送り合って盛り上がる"],en:["Band Fan Squad","Share reactions and cheer together"]},
+act:{ja:["ライブ遠征チーム","遠征の計画を分担する"],en:["Live Trip Team","Share the trip planning"]},
+learn:{ja:["英語もくもく会","学んだことを貢献にする"],en:["English Study Room","Turn what you learn into points"]}}};
+const TPLS=[["circle","📚"],["local","🏘️"],["fan","🌟"]];
+const QS=[["purpose","q1",[["connect","🤝","p_connect"],["act","🎉","p_act"],["learn","📖","p_learn"]]],
+["size","q2",[["s","👥","s_s"],["m","👥","s_m"],["l","👥","s_l"]]],
+["money","q3",[["none","🙅","m_none"],["small","🪙","m_small"],["budget","💰","m_budget"]]]];
+const TH=[0,10,30,60],SIZEN={s:8,m:32,l:120},QUO={s:50,m:40,l:30};
+const FRIENDS=["Mika","Sota","Aya","Ren","Yui"];
+const TASKS=[["greet",1],["thought",2],["vote",1],["help",3],["special",5]];
+const AV=["🥚","🐥","🐤","🐓"];
+const PETS={chick:{e:"🐥",av:["🥚","🐥","🐤","🐓"]},cat:{e:"🐱",av:["🥚","🐱","😺","🦁"]},bear:{e:"🐻",av:["🥚","🧸","🐻","👑"]}};
+const stN=s=>(s===0||!S.pet||S.pet==="chick")?t("st"+s):t("st_"+S.pet+s);
+function animal(kind,st,sl){
+ const cat=kind==="cat",c=cat?"#ffb15c":"#b98258",d=cat?"#e8913a":"#8f5f3a";
+ const big=st>=2,rx=big?38:34,ry=big?34:31,cy=big?66:68;
+ const eye=x=>sl?`<path d="M${x-5} 60 q5 5 10 0" stroke="#3c3c3c" stroke-width="2.5" fill="none" stroke-linecap="round"/>`:`<circle cx="${x}" cy="58" r="6.5" fill="#fff"/><circle cx="${x+1}" cy="59" r="3.5" fill="#222"/>`;
+ let b=cat?`<path d="M28 52 L33 20 L57 40Z M92 52 L87 20 L63 40Z" fill="${c}" stroke="${d}" stroke-width="2" stroke-linejoin="round"/><path d="M36 42 L38 30 L48 38Z M84 42 L82 30 L72 38Z" fill="#ffb3b3"/>`:`<circle cx="33" cy="38" r="13" fill="${c}"/><circle cx="87" cy="38" r="13" fill="${c}"/><circle cx="33" cy="38" r="6" fill="#e5b894"/><circle cx="87" cy="38" r="6" fill="#e5b894"/>`;
+ b+=`<ellipse cx="46" cy="104" rx="11" ry="7" fill="${d}"/><ellipse cx="74" cy="104" rx="11" ry="7" fill="${d}"/><ellipse cx="60" cy="${cy}" rx="${rx}" ry="${ry}" fill="${c}"/>`;
+ if(big)b+=`<circle cx="36" cy="73" r="5" fill="#ff8a80" opacity=".5"/><circle cx="84" cy="73" r="5" fill="#ff8a80" opacity=".5"/>`;
+ b+=eye(46)+eye(74);
+ if(cat)b+=`<path d="M56 67 L64 67 L60 72Z" fill="#ff7a8a"/><path d="M60 72 q-4 5 -8 2 M60 72 q4 5 8 2" stroke="#7a4a1a" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M30 68 h-12 M30 74 l-11 4 M90 68 h12 M90 74 l11 4" stroke="#7a4a1a" stroke-width="2" stroke-linecap="round"/>`;
+ else b+=`<ellipse cx="60" cy="74" rx="14" ry="10" fill="#f1d3b3"/><ellipse cx="60" cy="69" rx="5" ry="3.5" fill="#3c2a1a"/><path d="M60 72 v4 M60 76 q-4 4 -8 1 M60 76 q4 4 8 1" stroke="#3c2a1a" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+ if(st===3)b+=`<path d="M32 90 Q60 106 88 90 L86 100 Q60 116 34 100Z" fill="#58cc02"/><path d="M42 30 L46 14 L53 24 L60 8 L67 24 L74 14 L78 30 Z" fill="#ffb800" stroke="#ff9600" stroke-width="2" stroke-linejoin="round"/>`;
+ return`<svg viewBox="0 0 120 116" role="img" aria-label="${stN(st)}">${b}</svg>`}
+const SRC={youtube:["▶️","YouTube"],note:["📝","note"],x:["𝕏","X"],instagram:["📷","Instagram"]};
+const FEED=[["youtube","Yuki","活動ダイジェスト動画を公開","Posted the activity digest video",3,0],
+["note","Ken","先月の活動レポートを書きました","Wrote last month's activity report",8,0],
+["x","Mika","次回イベントの参加者を募集中！","Looking for people for the next event!",20,0],
+["instagram","Sora","集合写真をアップしました","Uploaded the group photo",30,0],
+["note","Yuki","メンバー紹介：Kenさん","Member spotlight: Ken",50,0],
+["youtube","Ken","ライブ配信のアーカイブ","Live stream archive",1,1],
+["note","Mika","イベントの振り返りレポート","Event recap report",2,1],
+["x","Yuki","今日の活動、楽しかった！","Today's activity was fun!",1,1]];
+const EVENTS=[[11,2,"秋のミニ大会","Autumn mini event","中央公園","Central Park"],
+[11,16,"みんなで交流ランチ","Community lunch","駅前カフェ","Cafe by the station"],
+[12,7,"年末ふりかえり会","Year-end review","オンライン","Online"]];
+const MEM=[["Yuki",3,48,"youtube","ライブ配信のアーカイブを投稿","Posted a live stream archive",2],
+["Ken",2,31,"note","活動レポートを公開","Published an activity report",8],
+["Mika",1,14,"x","イベント参加者を募集","Recruited for an event",20],
+["Sora",0,4,"instagram","集合写真をアップ","Uploaded a group photo",30]];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ago=h=>h<24?t("ago",h):t("agod",Math.floor(h/24));
+let hubMsg=null,editName=false;
+
+let lang=(function(){
+ if(window.APP_LANG==="ja"||window.APP_LANG==="en")return window.APP_LANG;
+ try{const q=new URLSearchParams(location.search).get("lang");if(q==="ja"||q==="en")return q}catch(e){}
+ try{const s=localStorage.getItem("lang");if(s==="ja"||s==="en")return s}catch(e){}
+ return"en"})();
+const fresh=()=>({step:"tpl",tpl:null,ans:{},xp:0,streak:0,done:{},invites:0,invitedToday:false,pet:"chick",team:62,hatched:false,sleepy:false,rules:false,name:"",tab:"feed",conn:{note:1},synced:false,pub:{}});
+let S=fresh();
+try{const raw=localStorage.getItem("piyo");if(raw)S=Object.assign(fresh(),JSON.parse(raw))}catch(e){}
+let banner=null,pop=0;
+function save(){try{localStorage.setItem("piyo",JSON.stringify(S))}catch(e){}}
+function t(k,...a){let s=(I18N[lang][k]!==undefined?I18N[lang][k]:k);a.forEach((v,i)=>{s=s.split("{"+i+"}").join(v)});return s}
+const stageOf=xp=>{let s=0;TH.forEach((v,i)=>{if(xp>=v)s=i});return s};
+const roleName=s=>stN(s)+" · "+t("ro"+s);
+
+function chick(st,sl){
+ if(st>0&&S.pet&&S.pet!=="chick"&&PETS[S.pet])return animal(S.pet,st,sl);
+ const eye=x=>sl?`<path d="M${x-5} 60 q5 5 10 0" stroke="#3c3c3c" stroke-width="2.5" fill="none" stroke-linecap="round"/>`:`<circle cx="${x}" cy="58" r="6.5" fill="#fff"/><circle cx="${x+1}" cy="59" r="3.2" fill="#222"/>`;
+ let b="";
+ if(st===0){b=`<ellipse cx="60" cy="64" rx="33" ry="41" fill="#fff4d6" stroke="#f1d98f" stroke-width="3"/><path d="M28 64 L38 52 L48 64 L58 52 L68 64 L78 52 L88 64 L92 60" stroke="#f1d98f" stroke-width="3" fill="none" stroke-linejoin="round"/><circle cx="46" cy="86" r="4" fill="#f6e5b0"/><circle cx="76" cy="40" r="3" fill="#f6e5b0"/>${sl?`<path d="M50 78 q5 4 10 0" stroke="#b98f2a" stroke-width="2.5" fill="none" stroke-linecap="round"/>`:`<circle cx="54" cy="76" r="2.5" fill="#b98f2a"/><circle cx="68" cy="76" r="2.5" fill="#b98f2a"/>`}`}
+ else{
+  const big=st>=2;const rx=big?38:34,ry=big?34:31,cy=big?66:68;
+  b=`<ellipse cx="60" cy="${cy}" rx="${rx}" ry="${ry}" fill="#ffd33d"/>`;
+  if(big)b+=`<ellipse cx="22" cy="72" rx="8" ry="15" fill="#f5be1b" transform="rotate(15 22 72)"/><ellipse cx="98" cy="72" rx="8" ry="15" fill="#f5be1b" transform="rotate(-15 98 72)"/><path d="M52 33 q4 -14 10 -2 q4 -10 8 3 q-9 -3 -18 -1z" fill="#ffd33d" stroke="#f5be1b" stroke-width="2"/><circle cx="38" cy="72" r="5" fill="#ffab91" opacity=".6"/><circle cx="82" cy="72" r="5" fill="#ffab91" opacity=".6"/>`;
+  else b+=`<path d="M56 38 q4 -8 8 0" stroke="#f5be1b" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  b+=eye(46)+eye(74)+`<path d="M53 69 L67 69 L60 79 Z" fill="#ff9600"/><path d="M48 98 v8 M44 106 h8 M72 98 v8 M68 106 h8" stroke="#ff9600" stroke-width="3" stroke-linecap="round" fill="none"/>`;
+  if(st===3)b+=`<path d="M32 88 Q60 104 88 88 L86 98 Q60 114 34 98Z" fill="#58cc02"/><path d="M42 36 L46 20 L53 30 L60 14 L67 30 L74 20 L78 36 Z" fill="#ffb800" stroke="#ff9600" stroke-width="2" stroke-linejoin="round"/>`;
+ }
+ return`<svg viewBox="0 0 120 116" role="img" aria-label="${t("st"+st)}">${b}</svg>`}
+
+function team(){return S.team}
+function contribute(id,pts){
+ if(S.done[id])return;
+ const before=stageOf(S.xp);
+ if(Object.keys(S.done).length===0)S.streak++;
+ S.done[id]=1;S.xp+=pts;S.team+=pts;S.sleepy=false;pop=pts;
+ const after=stageOf(S.xp);
+ if(after>0)S.hatched=true;
+ banner=after>before?{c:"up",m:t("m_promo",roleName(after))}:{c:"info",m:t("m_thanks",pts)};
+ save();render()}
+function invite(){
+ if(S.invitedToday)return;
+ const name=FRIENDS[S.invites%FRIENDS.length];
+ const before=stageOf(S.xp);
+ S.invites++;S.invitedToday=true;S.xp+=3;S.team+=3;S.sleepy=false;pop=3;
+ if(Object.keys(S.done).length===0)S.streak++;
+ S.done.invite=1;
+ try{navigator.clipboard&&navigator.clipboard.writeText("https://piyo.example/join/"+code())}catch(e){}
+ const after=stageOf(S.xp);if(after>0)S.hatched=true;
+ banner=after>before?{c:"up",m:t("m_promo",roleName(after))}:{c:"up",m:t("inv_msg",name)};
+ save();render()}
+const code=()=>"PY"+(S.tpl||"x").slice(0,2).toUpperCase()+String(S.invites+7).padStart(2,"0");
+function nextDay(){S.done={};S.invitedToday=false;banner={c:"info",m:t("m_new")};pop=0;save();render()}
+function rest(){
+ const before=stageOf(S.xp),floor=S.hatched?10:0;
+ S.xp=Math.max(floor,S.xp-8);S.streak=0;S.done={};S.invitedToday=false;S.sleepy=true;pop=0;
+ const after=stageOf(S.xp);
+ banner={c:"soft",m:after<before?t("m_down",roleName(after)):t("m_same")};
+ save();render()}
+
+function render(keep){
+ document.documentElement.lang=lang;document.title=t("title");
+ const lb=document.getElementById("langBtn");
+ lb.innerHTML=lang==="ja"?"<b>日本語</b> / EN":"日本語 / <b>EN</b>";lb.setAttribute("aria-label",t("langAria"));
+ if(!PETS[S.pet])S.pet="chick";
+ AV.splice(0,4,...PETS[S.pet].av);
+ const app=document.getElementById("app");
+ const f={tpl:vTpl,q0:()=>vQ(0),q1:()=>vQ(1),q2:()=>vQ(2),result:vRes,home:vHome}[S.step]||vTpl;
+ app.innerHTML=f();if(!keep)window.scrollTo(0,0)}
+
+function vHub(){
+ const cs=Object.keys(SRC).filter(k=>S.conn[k]);
+ const chips=Object.keys(SRC).map(k=>`<button class="chip ${S.conn[k]?"on":""}" type="button" data-act="conn" data-v="${k}" data-demo="conn-${k}" aria-pressed="${!!S.conn[k]}">${SRC[k][0]} ${SRC[k][1]} <small>${S.conn[k]?t("conn_on"):t("conn_off")}</small></button>`).join("");
+ const L=lang==="ja"?0:1;let body="";
+ if(S.tab==="feed"){
+  const items=FEED.filter(i=>S.conn[i[0]]&&(!i[5]||S.synced)).sort((a,b)=>a[4]-b[4]);
+  body=`<div class="chips">${chips}</div><button class="btn blue sm" type="button" data-act="sync" data-demo="sync-btn" style="margin-bottom:6px">🔄 ${t("sync")}</button>`+
+  (items.length?items.map(i=>`<div class="fi"><span class="sb" aria-hidden="true">${SRC[i[0]][0]}</span><div><b>${i[2+L]}</b><small>${SRC[i[0]][1]} · ${i[1]} · ${ago(i[4])}</small></div></div>`).join(""):`<p class="muted">${t("feed_empty")}</p>`);
+ }else if(S.tab==="events"){
+  body=EVENTS.map((e,i)=>`<div class="fi"><span class="sb dt" aria-hidden="true">${e[0]}/${e[1]}</span><div><b>${e[2+L]}</b><small>📍 ${e[4+L]}</small>${S.pub[i]?`<small>${cs.map(k=>SRC[k][0]).join(" ")}</small>`:""}</div>
+  <button class="btn ghost sm" type="button" data-act="pub" data-v="${i}" data-demo="event-pub-${i}" ${S.pub[i]?"disabled":""}>${S.pub[i]?t("ev_pubd"):t("ev_pub")}</button></div>`).join("");
+ }else{
+  body=`<div class="fi"><span class="sb" aria-hidden="true">${AV[stageOf(S.xp)]}</span><div><b>${t("you")}</b><small>${S.xp} XP · ${roleName(stageOf(S.xp))}</small></div></div>`+
+  MEM.map(m=>`<div class="fi"><span class="sb" aria-hidden="true">${AV[m[1]]}</span><div><b>${m[0]} <span class="muted">${m[2]} XP</span></b><small>${SRC[m[3]][0]} ${m[4+L]} · ${ago(m[6])}</small></div></div>`).join("");
+ }
+ return`<div class="card" data-demo="hub-card"><h2>🧭 ${t("hub_h")}</h2><div class="muted" style="margin:-6px 0 10px">${t("hub_s")}</div>
+ <div class="chips" style="margin-bottom:10px"><span class="fr">🔄 ${t("ft1")}</span><span class="fr">📣 ${t("ft2")}</span><span class="fr">👀 ${t("ft3")}</span></div>
+ <div class="tabs" role="tablist">${["feed","events","members"].map(k=>`<button class="tab ${S.tab===k?"on":""}" type="button" role="tab" aria-selected="${S.tab===k}" data-act="tab" data-v="${k}" data-demo="tab-${k}">${t("tab_"+k)}</button>`).join("")}</div>
+ ${hubMsg?`<div class="banner info" role="status" data-demo="hub-msg">${hubMsg}</div>`:""}
+ <div data-demo="hub-${S.tab}">${body}</div></div>`}
+
+function vTpl(){
+ return`<div class="narrow"><div class="hero"><div class="bounce" style="display:inline-block">${chick(1,false)}</div></div>
+ <h1>${t("tpl_h")}</h1><p class="sub">${t("tpl_s")}</p>
+ ${TPLS.map(([k,e])=>`<button class="card ${S.tpl===k?"sel":""}" type="button" data-act="tpl" data-v="${k}" data-demo="tpl-${k}"><span class="ic" aria-hidden="true">${e}</span><span><b>${t("tpl_"+k)}</b><small>${t("tpl_"+k+"_d")}</small></span></button>`).join("")}
+ <button class="btn" type="button" data-act="go" data-demo="continue" ${S.tpl?"":"disabled"}>${t("cont")}</button></div>`}
+function vQ(i){
+ const [key,qk,opts]=QS[i];
+ return`<div class="narrow"><div class="qtop">${t("q_of",i+1)}</div>
+ <div class="pbar" style="margin-bottom:18px" role="progressbar" aria-valuemin="0" aria-valuemax="3" aria-valuenow="${i+1}"><i style="width:${(i+1)/3*100}%"></i></div>
+ <h1 style="margin-bottom:16px">${t(qk)}</h1>
+ ${opts.map(([v,e,lk])=>`<button class="card ${S.ans[key]===v?"sel":""}" type="button" data-act="ans" data-k="${key}" data-v="${v}" data-demo="q${i+1}-${v}"><span class="ic" aria-hidden="true">${e}</span><b>${t(lk)}</b></button>`).join("")}
+ <div class="row"><button class="btn ghost" type="button" data-act="back" data-demo="back">${t("back")}</button>
+ <button class="btn" type="button" data-act="go" data-demo="continue" ${S.ans[key]?"":"disabled"}>${t("cont")}</button></div></div>`}
+function rulesList(){
+ const a=S.ans;
+ return[["🗳️",t("r_quorum",QUO[a.size])],["💰",t("r_money_"+a.money)],["⭐",t("r_promote")],["🌙",t("r_decay")],["🎯",t("r_purpose_"+a.purpose)]]
+ .map(([e,s])=>`<li><span aria-hidden="true">${e}</span><span>${s}</span></li>`).join("")}
+function vRes(){
+ const ex=EX[S.tpl][S.ans.purpose][lang];
+ return`<div class="narrow"><h1>${t("res_h")}</h1><p class="sub">${t("res_s")}</p>
+ <div class="card" data-demo="example-card"><span class="tag">${TPLS.find(x=>x[0]===S.tpl)[1]} ${t("tpl_"+S.tpl)}</span>
+ <div class="exname">${ex[0]}</div><div class="muted">${ex[1]}</div><div class="muted" style="margin-top:4px">👥 ${t("res_members",SIZEN[S.ans.size])}</div></div>
+ <div class="card" data-demo="initial-rules"><h2>${t("res_rules")}</h2><ul class="rules">${rulesList()}</ul></div>
+ <div class="card" data-demo="name-card"><h2>🏷️ ${t("name_l")}</h2>
+ <input class="inp" type="text" maxlength="24" value="${esc(S.name)}" placeholder="${esc(t("name_ph",ex[0]))}" aria-label="${esc(t("name_l"))}" data-act="name" data-demo="community-name"><div class="muted" style="margin-top:6px">${t("name_h")}</div></div>
+ <div class="row"><button class="btn ghost" type="button" data-act="back" data-demo="back">${t("back")}</button>
+ <button class="btn" type="button" data-act="start" data-demo="start-community">${t("start")}</button></div></div>`}
+
+function vHome(){
+ const st=stageOf(S.xp),nx=st<3?TH[st+1]:null;
+ const pr=nx?(S.xp-TH[st])/(nx-TH[st]):1;
+ const bub=t("b"+st);
+ const tasks=TASKS.map(([id,p])=>{const k=id==="special"?"t_special_"+S.tpl:"t_"+id;const d=S.done[id];
+  return`<button class="task ${d?"done":""}" type="button" data-act="task" data-id="${id}" data-p="${p}" data-demo="task-${id}" ${d?`aria-disabled="true"`:""}><span>${d?"✅ ":""}${t(k)}</span><b>${d?t("doneAria"):"+"+p}</b></button>`}).join("");
+ const gt=150,gp=Math.min(100,S.team/gt*100);
+ const fr=[["Yuki",3],["Ken",2],["Mika",1],["Sora",0]].map(([n,s])=>`<span class="fr">${AV[s]} ${n}</span>`).join("")+`<span class="fr" style="background:var(--gl)">${AV[st]} ${t("you")}</span>`;
+ const lad=[0,1,2,3].map(i=>`<div class="ladder ${i===st?"cur":""} ${i>st?"lock":""}"><span class="e" aria-hidden="true">${AV[i]}</span><span><b>${stN(i)} · ${t("ro"+i)}</b> <span class="muted">${TH[i]} XP~</span><small>${t("pk"+i)}</small></span></div>`).join("");
+ return`<div class="grid"><div>
+ ${banner?`<div class="banner ${banner.c}" role="status" data-demo="banner">${banner.m}</div>`:""}
+ <div class="card chickcard" data-demo="chick-card">
+  <div class="stats"><span class="streak" data-demo="streak">🔥 ${t("streak",S.streak)}</span><span class="xpn" data-demo="xp-count">${t("xp",S.xp)}</span></div>
+  ${pop?`<div class="pop" aria-hidden="true">+${pop}</div>`:""}
+  <div class="${S.sleepy?"":"bounce"}" style="display:inline-block">${chick(st,S.sleepy)}</div><br>
+  <div class="bub">${S.sleepy?t("m_same").replace("🌙 ",""):bub}</div>
+  <div class="role">${AV[st]} <span>${roleName(st)}</span></div>
+  ${editName?`<div class="row" style="margin:4px 0 10px"><input class="inp" type="text" maxlength="24" value="${esc(S.name)}" aria-label="${esc(t("name_l"))}" data-act="name" data-demo="home-name-input"><button class="btn sm" type="button" style="flex:none" data-act="rename" data-demo="name-save">${t("ren_save")}</button></div>`:
+  `<div class="muted" style="margin:2px 0 10px" data-demo="community-title">${S.name?"🏠 <b>"+esc(S.name)+"</b>":t("comm",t("tpl_"+S.tpl))} <button class="chip" type="button" data-act="rename" data-demo="rename-btn">✏️ ${t("ren")}</button></div>`}
+  <div class="pbar" data-demo="xp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pr*100)}"><i style="width:${pr*100}%"></i></div>
+  <div class="muted" style="margin-top:6px;font-weight:700">${nx?t("toNext",AV[st+1]+" "+stN(st+1),nx-S.xp):"👑 "+t("maxrank")}</div>
+  <div class="friends" style="justify-content:center" aria-label="${t("friends")}">${fr}</div>
+ </div>
+ <div class="card" data-demo="pet-picker"><h2>🎨 ${t("pet_h")}</h2><div class="chips" style="margin:0">${Object.keys(PETS).map(k=>`<button class="chip ${S.pet===k?"on":""}" type="button" style="font-size:15px;padding:8px 14px" data-act="pet" data-v="${k}" data-demo="pet-${k}" aria-pressed="${S.pet===k}">${PETS[k].e} ${t("pet_"+k)}</button>`).join("")}</div></div>
+ ${vHub()}
+ <div class="card" data-demo="goal-card"><h2>🎯 ${t("goal_h")}</h2><div style="font-weight:800;margin-bottom:8px">${t("goal_"+S.tpl)}</div>
+  <div class="pbar b" role="progressbar" aria-valuemin="0" aria-valuemax="${gt}" aria-valuenow="${S.team}"><i style="width:${gp}%"></i></div>
+  <div class="muted" style="margin-top:6px">${S.team} / ${gt} XP</div></div>
+ <div class="card" data-demo="role-ladder"><h2>🪜 ${t("ladder_h")}</h2>${lad}</div>
+ </div><div>
+ <div class="card" data-demo="task-list"><h2>✨ ${t("today_h")}</h2>${tasks}</div>
+ <div class="card" data-demo="invite-card"><h2>💌 ${t("inv_h")}</h2>
+  <button class="btn blue" type="button" data-act="invite" data-demo="invite-btn" ${S.invitedToday?"disabled":""}>${S.invitedToday?t("inv_done"):t("inv_btn")}</button>
+  ${S.invites?`<div class="linkbox" data-demo="invite-link">https://piyo.example/join/${code()}</div>`:""}
+  <div class="muted" style="margin-top:8px">${t("inv_count",S.invites)}</div></div>
+ <div class="card" data-demo="rules-card"><div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">📜 ${t("rules_h")}</h2>
+  <button class="btn ghost sm" type="button" data-act="rules" data-demo="rules-toggle">${S.rules?t("hide"):t("show")}</button></div>
+  ${S.rules?`<ul class="rules">${rulesList()}</ul>`:""}</div>
+ <div class="card" data-demo="demo-tools"><h2>🧪 ${t("demo_h")}</h2>
+  <div class="row"><button class="btn ghost sm" type="button" data-act="nextday" data-demo="next-day">${t("nextday")}</button>
+  <button class="btn ghost sm" type="button" data-act="rest" data-demo="rest-btn">${t("rest")}</button></div>
+  <button class="btn ghost sm" type="button" data-act="restart" data-demo="restart" style="margin-top:10px;color:var(--mu)">${t("restart")}</button></div>
+ </div></div>`}
+
+const ORDER=["tpl","q0","q1","q2","result"];
+document.addEventListener("click",e=>{
+ const el=e.target.closest("[data-act]");if(!el||el.disabled)return;
+ const a=el.dataset.act;
+ if(a==="lang"){lang=lang==="ja"?"en":"ja";try{localStorage.setItem("lang",lang)}catch(x){}
+  if(banner)banner=null;hubMsg=null;render();return}
+ if(a==="name")return;
+ if(a==="pet"){S.pet=el.dataset.v;banner={c:"up",m:t("pet_msg",t("pet_"+S.pet))};pop=0;save();render(true);return}
+ if(a==="rename"){if(editName&&!(S.name||"").trim())S.name="";editName=!editName;save();render(true);return}
+ if(a==="tab"){S.tab=el.dataset.v;hubMsg=null;save();render(true);return}
+ if(a==="conn"){const k=el.dataset.v;S.conn[k]=S.conn[k]?0:1;hubMsg=t(S.conn[k]?"conn_msg_on":"conn_msg_off",SRC[k][1]);save();render(true);return}
+ if(a==="sync"){const cs=Object.keys(SRC).filter(k=>S.conn[k]);
+  if(!cs.length)hubMsg=t("sync_none");
+  else{const n=FEED.filter(i=>i[5]&&S.conn[i[0]]&&!S.synced).length;S.synced=true;hubMsg=t("sync_msg",n)}
+  save();render(true);return}
+ if(a==="pub"){const cs=Object.keys(SRC).filter(k=>S.conn[k]);
+  if(!cs.length)hubMsg=t("sync_none");else{S.pub[el.dataset.v]=1;hubMsg=t("ev_msg",cs.length)}
+  save();render(true);return}
+ if(a==="tpl"){S.tpl=el.dataset.v}
+ else if(a==="ans"){S.ans[el.dataset.k]=el.dataset.v}
+ else if(a==="go"){S.step=ORDER[ORDER.indexOf(S.step)+1]}
+ else if(a==="back"){S.step=ORDER[Math.max(0,ORDER.indexOf(S.step)-1)]}
+ else if(a==="start"){S.name=(S.name||"").trim()||EX[S.tpl][S.ans.purpose][lang][0];S.tab="feed";S.synced=false;S.pub={};S.conn={note:1};hubMsg=null;S.step="home";S.xp=5;S.streak=0;S.done={};S.team=62;S.invites=0;S.invitedToday=false;S.hatched=false;S.sleepy=false;banner={c:"up",m:t("m_start")};pop=5}
+ else if(a==="task"){if(el.classList.contains("done"))return;contribute(el.dataset.id,+el.dataset.p);return}
+ else if(a==="invite"){invite();return}
+ else if(a==="nextday"){nextDay();return}
+ else if(a==="rest"){rest();return}
+ else if(a==="rules"){S.rules=!S.rules}
+ else if(a==="restart"){S=fresh();banner=null;pop=0}
+ save();render()});
+document.addEventListener("input",e=>{const el=e.target;if(el.dataset&&el.dataset.act==="name"){S.name=el.value;save()}});
+if(S.step==="home"&&!S.tpl)S=fresh();
+render();
+</script>
+</body>
+</html>

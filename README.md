@@ -1,2 +1,19 @@
-# piyo-community
-貢献するほどひよこが育ち、役割が自動で上がるコミュニティ運営DAOアプリ
+# Piyo
+
+
+
+- ▶ **Try it:** https://kimi-olly.github.io/piyo-community/
+
+## About
+
+See the app and [IDEA.md](IDEA.md) (the idea log, in Japanese).
+
+## How it was made
+
+Built by shaping the idea together with AI (Claude) and publishing the AI-written code.
+The full conversation is in [IDEA.md](IDEA.md) (Japanese).
+
+## Files
+
+- `index.html` — the app (a single self-contained file)
+- `IDEA.md` — the idea log
